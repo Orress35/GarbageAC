@@ -74,6 +74,14 @@ public class garbage extends JavaPlugin implements Listener {
         boolean onrgoernud = player_move_Event.getPlayer().isOnGround();
         HashMap<String, Double> palyervioatlmiopns = viaoltnos.get(player_move_Event.getPlayer().getUniqueId());
 
+if(onrgoernud&&deltay<-0.0061){
+double votiaonsl = palyervioatlmiopns.getOrDefault("predcition (A)", 0.0) + 1;
+briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&eGargabe&8] &e" + player_move_Event.getPlayer().getName() + " &7failed &epreeiction (A) &8[&7VL: &e" + Math.round(votiaonsl) + "&8]");
+
+palyervioatlmiopns.put("predcition (A)", votiaonsl)
+player_move_Event.getPlayer().teleport(player_move_Event.getPlayer())
+}
+
         if (onrgoernud && lastoahurng && deltaxz > 0.5) {
             double vioatlnsio = palyervioatlmiopns.getOrDefault("S[eed (A)", 0.0) + 1;
             briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&eGarbage&8] &e" + player_move_Event.getPlayer().getName() + "&7 failed &e Speed (A) &8[&7VL: &e" + Math.round(vioatlnsio) + "&8]");

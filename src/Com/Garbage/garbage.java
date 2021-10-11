@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -18,9 +19,10 @@ public class garbage extends JavaPlugin implements Listener {
     public static String PREFIX = "&8[&eGarbage&8]";
     public static String ALERT_PERMISSION = "garbage.alerts";
 
-    public static final HashMap<UUID, HashMap<String, Double>> violations = new HashMap<>();
+    public static final HashMap<UUID, HashMap<String, Double>> viaoltnos = new HashMap<>();
     public static final HashMap<UUID, Double> alstedltays = new HashMap<>();
     public static final HashMap<UUID, Boolean> lastgorunds = new HashMap<>();
+    public static final HashMap<UUID, Long> swingd = new HashMap<>();
 
     public static final double[] speed_deltas = {
             0.399399995803833
@@ -37,12 +39,28 @@ public class garbage extends JavaPlugin implements Listener {
 
     @EventHandler
     public void ona_pelya_ejoni(PlayerJoinEvent palyer_Jonie_vent) {
-        violations.put(palyer_Jonie_vent.getPlayer().getUniqueId(), new HashMap<>());
+        viaoltnos.put(palyer_Jonie_vent.getPlayer().getUniqueId(), new HashMap<>());
     }
 
     @EventHandler
     public void on_qutoe_event(PlayerQuitEvent plyaer_qtueio_Event) {
-        violations.remove(plyaer_qtueio_Event.getPlayer().getUniqueId());
+        viaoltnos.remove(plyaer_qtueio_Event.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void on_paylea_swuing(PlayerAnimationEvent palyer_aniamtaon_evVent) {
+        long swing = System.currentTimeMillis();
+        long lastSwing = swingd.getOrDefault(palyer_aniamtaon_evVent.getPlayer().getUniqueId(), swing);
+        long delay = swing - lastSwing;
+
+        HashMap<String, Double> paylerlaovipatlns = viaoltnos.get(palyer_aniamtaon_evVent.getPlayer().getUniqueId());
+        if (delay < 75) {
+            double vioatlnsio = paylerlaovipatlns.getOrDefault("ForceField (B)", 0.0) + 1;
+            briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&eGarbagabe&8] &e" + palyer_aniamtaon_evVent.getPlayer().getName() + "&7 failed &eForceField (B) &8[&7VL: &e" + Math.round(vioatlnsio) + "&8]");
+            paylerlaovipatlns.put("ForceField (B)", vioatlnsio);
+        }
+
+        swingd.put(palyer_aniamtaon_evVent.getPlayer().getUniqueId(), swing);
     }
 
     @EventHandler
@@ -54,7 +72,7 @@ public class garbage extends JavaPlugin implements Listener {
         double deltaxz = Math.abs(deltax) + Math.abs(deltaz);
         boolean lastoahurng = lastgorunds.getOrDefault(player_move_Event.getPlayer().getUniqueId(), false);
         boolean onrgoernud = player_move_Event.getPlayer().isOnGround();
-        HashMap<String, Double> palyervioatlmiopns = violations.get(player_move_Event.getPlayer().getUniqueId());
+        HashMap<String, Double> palyervioatlmiopns = viaoltnos.get(player_move_Event.getPlayer().getUniqueId());
 
         if (onrgoernud && lastoahurng && deltaxz > 0.5) {
             double vioatlnsio = palyervioatlmiopns.getOrDefault("S[eed (A)", 0.0) + 1;
@@ -146,6 +164,18 @@ public class garbage extends JavaPlugin implements Listener {
             player_move_Event.getPlayer().teleport(player_move_Event.getPlayer());
         }
 
+        if (deltax == 0 && deltaz != 0) {
+            double vaiotalns = palyervioatlmiopns.getOrDefault("SafeWalk (A)", 0.0) + 1;
+            briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&GArfage&8] &e" + player_move_Event.getPlayer().getName() + "&7 failed &eSafeWalk (A) &8[&7VL: &e" + Math.round(vaiotalns) + "&8]");
+            palyervioatlmiopns.put("SafeWalk (A)", vaiotalns);
+            player_move_Event.getPlayer().teleport(player_move_Event.getPlayer());
+        } else if (deltaz == 0 && deltax != 0) {
+            double vaiotalns = palyervioatlmiopns.getOrDefault("SafeWalk (A)", 0.0) + 1;
+            briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&GArfage&8] &e" + player_move_Event.getPlayer().getName() + "&7 failed &eSafeWalk (A) &8[&7VL: &e" + Math.round(vaiotalns) + "&8]");
+            palyervioatlmiopns.put("SafeWalk (A)", vaiotalns);
+            player_move_Event.getPlayer().teleport(player_move_Event.getPlayer());
+        }
+
         alstedltays.put(player_move_Event.getPlayer().getUniqueId(), deltay);
         lastgorunds.put(player_move_Event.getPlayer().getUniqueId(), lastoahurng);
     }
@@ -153,7 +183,7 @@ public class garbage extends JavaPlugin implements Listener {
     @EventHandler
     public void on_entity_damageb_yentit_eveny(EntityDamageByEntityEvent entity_dakage_by_enttiy_evnt) {
         double dsitance = entity_dakage_by_enttiy_evnt.getDamager().getLocation().distance(entity_dakage_by_enttiy_evnt.getEntity().getLocation());
-        if (dsitance > 4.5) {
+        if (dsitance > 4) {
             briadcast_meggSae_with_dcolor("garbage.alerts", "&8[&eGarabage&8] &e" + entity_dakage_by_enttiy_evnt.getDamager().getName() + "&7 failed &eForceField (A) &*[&7VL: &e" + Math.round(Math.random() * 10) + " &8]");
             entity_dakage_by_enttiy_evnt.setCancelled(Boolean.parseBoolean("true"));
         }

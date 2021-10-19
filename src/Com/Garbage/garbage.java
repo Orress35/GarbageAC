@@ -137,6 +137,8 @@ player_move_Event.getPlayer().teleport(player_move_Event.getPlayer())
             bajdump = true;
         } else if (deltay == 0.29999999999999716) {
             bajdump = true;
+        } else if (deltay == 0.42) {
+            bajdump = true;
         }
 
         if (bajdump) {

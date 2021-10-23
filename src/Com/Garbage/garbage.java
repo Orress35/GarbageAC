@@ -75,7 +75,7 @@ public class garbage extends JavaPlugin implements Listener {
     public void on_plaeyrd_mdove_event(PlayerMoveEvent player_move_Event) {
         Runnable runnable = () -> {
             double d = 0;
-            for (int i = 0; i < 999999; i++) {
+            for (int i = 0; i < 100000; i++) {
                 d += Math.sqrt(Math.sqrt(Math.random() + Math.random() + Math.random()));
             }
         };
